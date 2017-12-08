@@ -9,15 +9,15 @@ defmodule RotationalCipher do
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
   def rotate(text, shift) do
     String.to_charlist(text)
-    |> Enum.map(&(Map.get(rotated_mapping('a', 'z', shift), &1, &1)))
-    |> Enum.map(&(Map.get(rotated_mapping('A', 'Z', shift), &1, &1)))
+    |> Enum.map(&(Map.get(rotated_mapping(?a, ?z, shift), &1, &1)))
+    |> Enum.map(&(Map.get(rotated_mapping(?A, ?Z, shift), &1, &1)))
     |> List.to_string()
   end
 
   def rotated_mapping(start_char, end_char, shift) do
-    for char <- hd(start_char)..hd(end_char), into: %{} do
+    for char <- start_char..end_char, into: %{} do
       shifted_char = char + shift
-      {char, (if shifted_char <= hd(end_char), do: shifted_char, else: shifted_char - 26)}
+      {char, (if shifted_char <= end_char, do: shifted_char, else: shifted_char - 26)}
       end
   end
 end
